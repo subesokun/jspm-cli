@@ -36,7 +36,8 @@
     "jspm": "./jspm.js"
   },
   "scripts": {
-    "test": "npm run jshint && mocha",
+    "test": "npm run jshint && npm run mocha",
+    "mocha": "mocha",
     "jshint": "jshint api.js cli.js jspm.js lib test"
   },
   "bugs": {

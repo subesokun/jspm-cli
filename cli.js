@@ -35,6 +35,8 @@ process.on('uncaughtException', function(err) {
   ui.log('err', err.stack || err);
 });
 
+/* jshint laxbreak: true */
+
 (function() {
   function showHeader() {
     ui.log('\n'
@@ -107,7 +109,7 @@ process.on('uncaughtException', function(err) {
 
   function showVersion() {
     ui.log(require('./package.json').version + '\n'
-      + (process.env.localJspm == 'true' ? 'Running against local jspm install.' : 'Running against global jspm install.')
+      + (process.env.localJspm === 'true' ? 'Running against local jspm install.' : 'Running against global jspm install.')
     );
   }
 
@@ -115,7 +117,7 @@ process.on('uncaughtException', function(err) {
     for (var p in obj) {
       if (!obj.hasOwnProperty(p))
         continue;
-      if (typeof obj[p] == 'object')
+      if (typeof obj[p] === 'object')
         dwalk(obj[p], visitor, (pname ? pname + '.' : '') + p);
       else
         visitor((pname ? pname + '.' : '') + p, obj[p]);
@@ -126,19 +128,19 @@ process.on('uncaughtException', function(err) {
     settings = settings || [];
     var argOptions = { args: [] }, i, j, k;
     for (i = 0; i < args.length; i++) {
-      if (args[i].substr(0, 2) == '--') {
+      if (args[i].substr(0, 2) === '--') {
         for (j = 0; j < flags.length; j++)
-          if (flags[j] == args[i])
+          if (flags[j] === args[i])
             argOptions[flags[j].substr(2)] = i;
         for (j = 0; j < settings.length; j++)
-          if (settings[j] == args[i])
+          if (settings[j] === args[i])
             argOptions[settings[j].substr(2)] = args[++i];
       }
-      else if (args[i].substr(0, 1) == '-' && args[i].length > 1) {
+      else if (args[i].substr(0, 1) === '-' && args[i].length > 1) {
         var opts = args[i].substr(1);
         opl: for (j = 0; j < opts.length; j++) {
           for (k = 0; k < flags.length; k++) {
-            if (flags[k].substr(2, 1) == opts[j]) {
+            if (flags[k].substr(2, 1) === opts[j]) {
               argOptions[flags[k].substr(2)] = argOptions.args.length;
               continue opl;
             }
@@ -184,7 +186,7 @@ process.on('uncaughtException', function(err) {
 
         // if it is a full name then it is the target
         // the name is taken to be the shortname from the target
-        if (name.indexOf(':') != -1) {
+        if (name.indexOf(':') !== -1) {
           target = name + (target ? '@' + target : '');
           var nameParts = target.split(':')[1].split('/');
           name = nameParts.pop();
@@ -201,7 +203,7 @@ process.on('uncaughtException', function(err) {
 
       var override = options.override && args.splice(options.override).join(' ');
       if (override) {
-        if (override.substr(0, 1) != '{') {
+        if (override.substr(0, 1) !== '{') {
           try {
             options.override = fs.readFileSync(override);
           }
@@ -308,7 +310,7 @@ process.on('uncaughtException', function(err) {
       .then(function() {
         if (!args[1])
           return install.showVersions(options.forks);
-        if (args[1].indexOf(':') == -1)
+        if (args[1].indexOf(':') === -1)
           return ui.log('warn', 'Enter a full package name of the format `endpoint:repo`.');
         return install.showInstallGraph(args[1]);
       })
@@ -374,7 +376,7 @@ process.on('uncaughtException', function(err) {
         var fileName;
 
         // we can write: jspm bundle app + other
-        if (['+', '-'].indexOf(signChar) != -1) {
+        if (['+', '-'].indexOf(signChar) !== -1) {
           expression = bArgs.join(' ');
         }
         // or we can write: jspm bundle app + other out.js
@@ -459,7 +461,7 @@ process.on('uncaughtException', function(err) {
 
       var action = args[1];
 
-      if (action == 'config') {
+      if (action === 'config') {
         if (!args[2])
           return ui.log('warn', 'You must provide an endpoint name to configure.');
         return Promise.resolve(endpoint.configure(args[2]))
@@ -469,7 +471,7 @@ process.on('uncaughtException', function(err) {
           ui.log('err', err.stack || err);
         });
       }
-      else if (action == 'create') {
+      else if (action === 'create') {
         if (!args[2])
           return ui.log('warn', 'You must provide an endpoint name to create.');
         if (!args[3])
@@ -482,7 +484,7 @@ process.on('uncaughtException', function(err) {
           ui.log('err', err.stack || err);
         });
       }
-      else if (action == 'export') {
+      else if (action === 'export') {
         if (!args[2])
           return ui.log('warn', 'You must provide an endpoint name to export.');
         if (!globalConfig.config.endpoints[args[2]])
